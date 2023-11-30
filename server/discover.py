@@ -1,21 +1,11 @@
 import os
 import sys
 
-# List published filenames from host named hostname
+# List filenames from host named hostname
 def discover(hostname):
-    files = []
-    for filename in os.listdir("peers/" + hostname):
-        with open("peers/" + hostname + "/" + filename, "r") as f:
-            while True:
-                data = f.readline()
-
-                #end of file
-                if len(data) == 0:
-                    break
-                files.append(data.split(' | ')[1])
-    data = "".join(files)
-    print(data)
-    return data
+    files = os.listdir("peers/" + hostname)
+    print(files)
+    return files
 
 def main():
     # Syntax check
