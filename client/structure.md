@@ -10,7 +10,7 @@ This document provides instructions on how to set up and use the client for the 
         ├── client_core.py
         ├── networking.py               
         ├── file_management.py          
-        ├── command_interface.py  #execute to run client
+        ├── command_interface.py  # Execute to run client
         ├── configuration.py         
         └── utilities.py
 

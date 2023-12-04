@@ -1,19 +1,19 @@
-# client_core.py
-
 import threading
 from networking import connect_to_server, disconnect
 from file_management import publish, unpublish, fetch_file, start_file_sharing_server
 from configuration import SERVER_ADDRESS, SERVER_PORT
 
 class ClientCore:
-    def __init__(self):
+    def __init__(self, server_address, server_port):
+        self.server_address = server_address
+        self.server_port = server_port
         self.server_socket = None
         self.file_sharing_thread = None
         self.running = False
-
+        
     def start(self):
         # Connect to the server
-        self.server_socket = connect_to_server(SERVER_ADDRESS, SERVER_PORT)
+        self.server_socket = connect_to_server(self.server_address, self.server_port)
         # Start the file-sharing server in a separate thread
         self.file_sharing_thread = threading.Thread(target=start_file_sharing_server)
         self.file_sharing_thread.start()
