@@ -2,7 +2,7 @@
 
 This document provides instructions on how to set up and use the client for the P2P file sharing system.
 
-
+## Structure
 P2P-FILE-SHARING/
 └── client/
     ├── nice
