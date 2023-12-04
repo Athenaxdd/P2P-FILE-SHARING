@@ -3,16 +3,17 @@
 This document provides instructions on how to set up and use the client for the P2P file sharing system.
 
 ## Structure
-P2P-FILE-SHARING/
-└── client/
-    ├── nice
-    ├── init.py
-    ├── client_core.py
-    ├── networking.py
-    ├── file_management.py
-    ├── command_interface.py  #execute to run client
-    ├── configuration.py
-    └── utilities.py
+
+    P2P-FILE-SHARING/
+    └── client/           
+        ├── init.py
+        ├── client_core.py
+        ├── networking.py               
+        ├── file_management.py          
+        ├── command_interface.py  #execute to run client
+        ├── configuration.py         
+        └── utilities.py
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
