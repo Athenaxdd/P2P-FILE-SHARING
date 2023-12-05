@@ -10,10 +10,17 @@ from tkinter import messagebox
 # Support function
 def get_address_list():
     address_list = ['Choose hostname']
-    adds = os.scandir("peers")
-    for add in adds:
-        address_list.append(add.name)
-    adds.close()
+    try:
+        if not os.path.exists("peers"):
+            os.makedirs("peers")
+        adds = os.scandir("peers")
+        for add in adds:
+            address_list.append(add.name)
+            print(str(add.name))
+        adds.close()
+    except Exception as e:
+        print(f"An error occurred while retrieving the address list: {e}")
+    print(address_list)
     return address_list
 
 def get_published_files(hostname):
@@ -56,9 +63,9 @@ class MainFrame(customtkinter.CTkFrame):
         hostname = self.hostname_entry.get()
         res = ping(hostname)
         if res == 0:
-            messagebox(title=f'Ping Result to {hostname}', icon='check', message='Alive!')
+            messagebox.showinfo(title=f'Ping Result to {hostname}', message='Alive!')
         else:
-            messagebox(title=f'Ping Result to {hostname}', icon='cancel', message='Not Alive!')
+            messagebox.showinfo(title=f'Ping Result to {hostname}', message='Not Alive!')
 
     def discover_button_callback(self):
         hostname = self.hostname_entry.get()
@@ -85,6 +92,10 @@ class App(customtkinter.CTk):
         self.title("P2P File Sharing System - Centralized Server")
         self.geometry("580x460")
 
+        # Frames
+        self.ping_frame = MainFrame(self)
+        self.ping_frame.grid(row=1, column=0, columnspan=4)
+        
         # Grid configurations
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
@@ -100,9 +111,6 @@ class App(customtkinter.CTk):
         self.refresh_button = customtkinter.CTkButton(self, text="Refresh", command=self.refresh_button_callback)
         self.refresh_button.grid(row=0, column=2, padx=(0, 24), pady=24, sticky="e")
 
-        # Frames
-        self.ping_frame = MainFrame(self)
-        self.ping_frame.grid(row=1, column=0, columnspan=4)
 
     def start_button_callback(self):
         threading.Thread(target=start_server).start()
@@ -115,7 +123,9 @@ class App(customtkinter.CTk):
         self.shutdown_button.configure(state='disabled')
 
     def refresh_button_callback(self):
-        self.ping_frame.hostname_entry.configure(require_redraw=True, values=get_address_list())
+        address_list = get_address_list()
+        self.ping_frame.hostname_entry.configure(require_redraw=True, values=address_list)
+        # self.ping_frame.hostname_entry.configure(values=get_address_list())
 
 app = App()
 app.mainloop()

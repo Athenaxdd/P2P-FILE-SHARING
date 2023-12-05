@@ -1,8 +1,9 @@
 import socket
-from configuration import BUFFER_SIZE
+from configuration import *
 
 def connect_to_server(server_address, server_port):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # server_socket.settimeout(5)
     server_socket.connect((server_address, server_port))
     return server_socket
 
