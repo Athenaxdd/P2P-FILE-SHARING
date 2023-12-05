@@ -12,11 +12,21 @@ def start_server():
     # Create a socket and listen for commands from clients
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(('', SERVER_PORT))
+
     server.listen(CLIENT_LIMIT)
 
     # Make a directory for savefiles to fetch
     if not os.path.exists("peers"):
         os.mkdir("peers")
+
+    client_hostname = socket.gethostname()
+    published_files = []
+    
+    # Create a file in the "peers" folder with the client's hostname as the filename
+    with open(f"peers/{client_hostname}", "w") as f:
+        # Write the list of published files to the file
+        for file in published_files:
+            f.write(f"{file}\n")
 
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s') #test
     logging.info("Server started. Waiting for connections...")
