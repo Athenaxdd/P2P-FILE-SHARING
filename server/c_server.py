@@ -21,7 +21,7 @@ def start_server():
 
     client_hostname = socket.gethostname()
     published_files = []
-    
+
     # Create a file in the "peers" folder with the client's hostname as the filename
     with open(f"peers/{client_hostname}", "w") as f:
         # Write the list of published files to the file
@@ -50,6 +50,7 @@ def client_handler(client, address, server):
             response = client.recv(BUFFER_SIZE).decode()
             args = response.split()
 
+            opcode = response.split()[0]
             # Handle shutdown exception
             try:
                 opcode = args[0]

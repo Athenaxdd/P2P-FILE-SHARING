@@ -3,7 +3,12 @@ import sys
 
 # List filenames from host named hostname
 def discover(hostname):
-    files = os.listdir("peers/" + hostname)
+    files = []
+    directory = f"peers/{hostname}"
+    if os.path.isdir(directory):
+        files = os.listdir(directory)
+    else:
+        print(f"Directory {directory} does not exist.")
     print(files)
     return files
 
