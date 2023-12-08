@@ -2,7 +2,7 @@ import os
 import socket
 import threading
 import logging
-from config import *
+from configuration import *
 from shutdown import shutdown
 from discover import discover
 from ping import ping
@@ -61,8 +61,8 @@ def client_handler(client, address, server):
             # Handle publish lname fname
             if opcode == 'publish':
                 if len(args) < 3:
-                    print("Invalid publish command received. Closing connection.")
-                    break
+                    print("Invalid publish command received.")
+                    # break
                 file_name = address[0]
                 lname = " ".join(args[1:-1])
                 fname = args[-1]

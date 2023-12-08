@@ -125,7 +125,6 @@ class App(customtkinter.CTk):
     def refresh_button_callback(self):
         address_list = get_address_list()
         self.ping_frame.hostname_entry.configure(require_redraw=True, values=address_list)
-        # self.ping_frame.hostname_entry.configure(values=get_address_list())
 
 app = App()
 app.mainloop()

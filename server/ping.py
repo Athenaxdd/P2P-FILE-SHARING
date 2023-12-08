@@ -1,6 +1,6 @@
 import sys
 import socket
-from config import *
+from configuration import *
 
 def ping(address):
     ping_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
