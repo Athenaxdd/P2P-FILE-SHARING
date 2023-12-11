@@ -109,83 +109,25 @@ def client_handler(client, address, server):
                 if len(args) != 2:
                     print("Invalid source command received. Closing connection.")
                     break
-                hostname = args[1]
-                fname = args[2]
-                sources = "" # a string of sources who have the file, separated by commas
-                
-                # Call the discover function with the hostname argument, and get a list of files from the host
-                files = discover(hostname)
-                
-                # Filter the list of files by the fname argument
-                files = [file for file in files if fname in file]
-                
-                # For each file in the list, append the ip and port to the sources string, separated by a comma
-                for file in files:
-                    # extract the ip and port from the file name
-                    ip, port = file.split('_')
-                    # append the ip and port to the sources string, separated by a comma
-                    sources += ip + ':' + port + ' , '
-                
-                # remove the trailing comma from the sources string
-                sources = sources[:-1]
+                fname = args[1]
+                sources = "" 
 
-                # send a sources message to the server
-                client.send(('sources ' + fname).encode())
+                # Get all the .txt files in the "peers" directory
+                peer_files = os.listdir("peers")
 
-                # # receive the sources string from the server
-                # sources = client.recv(BUFFER_SIZE).decode()
+                for peer_file in peer_files:
+                    with open("peers/" + peer_file, 'r') as f:
+                        files = f.read().split('\n')
 
-                # # split the sources string by commas to get a list of sources
-                # sources = sources.split(',')
+                    # If the filename is in the .txt file, append the peer's name to the sources string
+                    if fname in files:
+                        sources += peer_file[:-4] + ' , '  # Remove the .txt extension from the peer's name (peer name is saved as [peerName].txt)
 
-                # # create a dictionary to store the ping time for each source
-                # ping_dict = {}
+                # Remove the trailing comma from the sources string
+                sources = sources[:-1] #reformat, "source1, source2," --> "source1, source2"
 
-                # # iterate over each source in the list
-                # for source in sources:
-                #     # split the source into ip and port
-                #     ip, port = source.split(':')
-
-                #     # measure the ping time to the source using the ping.do_one() function
-                #     ping_time = ping.do_one(ip, 1)
-
-                #     # store the ping time in the ping_dict with the source as the key
-                #     ping_dict[source] = ping_time
-
-                # # find the source with the lowest ping time using the min() function
-                # source = min(ping_dict, key=ping_dict.get)
-
-                # # split the source into ip and port
-                # ip, port = source.split(':')
-
-                # # create a new socket for file transfer
-                # file_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-                # # connect to the source
-                # file_socket.connect((ip, int(port)))
-
-                # # send a FileDownload message to the source
-                # file_socket.send(('FileDownload ' + fname).encode())
-
-                # # receive the file size from the source
-                # file_size = int(file_socket.recv(BUFFER_SIZE).decode())
-
-                # # receive the file data from the source
-                # file_data = b''
-                # counter = 0
-                # while (counter*BUFFER_SIZE) < file_size:
-                #     file_data += file_socket.recv(BUFFER_SIZE)
-                #     counter += 1
-
-                # # save the file to the local repository
-                # with open(fname, 'wb') as f:
-                #     f.write(file_data)
-
-                # # close the file socket
-                # file_socket.close()
-
-                # # optionally publish the file to the server
-                # client.send(('publish ' + lname + ' ' + fname).encode())
+                # Send a sources message to the client
+                client.send(('sources ' + fname + ' ' + sources).encode())
 
             # Handle server shutdown
             elif opcode == 'shutdown':
