@@ -12,7 +12,7 @@ def run_command_interface():
         while True:
             command = input("Enter command (publish, unpublish, fetch, exit): ")
             args = command.split()
-            if args[0] == "publish" and len(args) == 2:
+            if args[0] == "publish" and len(args) == 2: #publish at client/peers/[filename]
                 client_core.publish_files(args[1])
             elif args[0] == "unpublish" and len(args) == 2:
                 client_core.unpublish_files(args[1])
