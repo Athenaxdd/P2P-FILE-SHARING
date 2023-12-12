@@ -4,7 +4,7 @@ import sys
 # List filenames from host named hostname
 def discover(hostname):
     files = []
-    directory = f"peers/{hostname}.txt"
+    directory = f"peers/{hostname}"
     if os.path.isfile(directory):
         with open(directory, 'r') as f:
             files = [line.strip() for line in f]

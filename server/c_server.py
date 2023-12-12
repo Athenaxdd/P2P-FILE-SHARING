@@ -23,7 +23,7 @@ def start_server():
     published_files = []
 
     # Create a file in the "peers" folder with the client's hostname as the filename
-    with open(f"peers/{client_hostname}", "w") as f:
+    with open(f"peers/{client_hostname}.txt", "w") as f:
         # Write the list of published files to the file
         for file in published_files:
             f.write(f"{file}\n")
