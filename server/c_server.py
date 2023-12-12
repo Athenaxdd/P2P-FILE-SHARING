@@ -68,9 +68,9 @@ def client_handler(client, address, server):
                     print("Received publish file command for file:", file_name)
 
                     # Read the content of the file
-                    with open(file_path, 'r') as file:
-                        file_content = file.read()
-                    print("File content:", file_content)
+                    # with open(file_path, 'r') as file:
+                    #     file_content = file.read()
+                    # print("File content:", file_content)
 
                     # Get the client's hostname
                     client_hostname = socket.gethostname()
@@ -81,6 +81,26 @@ def client_handler(client, address, server):
                         # Write the file name to the file, each file name will be on a new line
                         f.write(file_name + "\n")
 
+            elif opcode == 'unpublish':
+                if len(args) != 2:
+                    print("Invalid unpublish command received.")
+                else:
+                    file_name = args[1]  # Get the file name from the command
+                    print("Received unpublish file command for file:", file_name)
+
+                    # Get the client's hostname
+                    client_hostname = socket.gethostname()
+
+                    # Open the file in the "peers" directory with the client's hostname as the filename
+                    with open("peers/" + client_hostname + ".txt", "r") as f:
+                        lines = f.readlines()
+
+                    # Remove the line with the file name
+                    lines = [line for line in lines if line.strip("\n") != file_name]
+
+                    # Write the remaining lines back to the file
+                    with open("peers/" + client_hostname + ".txt", "w") as f:
+                        f.writelines(lines)
 
             # Handle fetch fname
             elif opcode == 'fetch':
