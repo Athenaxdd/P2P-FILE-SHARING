@@ -99,7 +99,7 @@ def client_handler(client, address, server):
                     lines = [line for line in lines if line.strip("\n") != file_name]
 
                     # Write the remaining lines back to the file
-                    with open("peers/" + client_hostname + ".txt", "w") as f:
+                    with open("peers/" + client_hostname + ".txt", "w") as f: # w: write mode
                         f.writelines(lines)
 
             # Handle fetch fname
@@ -132,7 +132,7 @@ def client_handler(client, address, server):
                 fname = args[1]
                 sources = "" 
 
-                # Get all the .txt files in the "peers" directory
+                # Get all the .txt files in the "peers" directory in server folder
                 peer_files = os.listdir("peers")
 
                 for peer_file in peer_files:

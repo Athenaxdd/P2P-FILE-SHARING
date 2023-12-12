@@ -4,11 +4,12 @@ import sys
 # List filenames from host named hostname
 def discover(hostname):
     files = []
-    directory = f"peers/{hostname}"
-    if os.path.isdir(directory):
-        files = os.listdir(directory)
+    directory = f"peers/{hostname}.txt"
+    if os.path.isfile(directory):
+        with open(directory, 'r') as f:
+            files = [line.strip() for line in f]
     else:
-        print(f"Directory {directory} does not exist.")
+        print(f"File {directory} does not exist.")
     print(files)
     return files
 
