@@ -80,16 +80,10 @@ def handlePeer(peerClient):
         isSend = 0
         f = open(file_path, 'rb')
         l = f.read(2048)
-        isSend += 2048
-        percent = math.floor((isSend/file_size)*100)
         while l:
             peerClient.send(l)
-            data =str(percent).encode()
-            peerClient.send(data)
-            peerClient.recv(1024).decode()
+            isSend += len(l)
             l = f.read(2048)
-            isSend += 2048
-            percent = math.floor((isSend/file_size)*100)
         f.close()
         peerClient.shutdown(socket.SHUT_WR)
     peerClient.close()
