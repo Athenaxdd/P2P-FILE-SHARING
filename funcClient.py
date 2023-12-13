@@ -186,27 +186,30 @@ def sendFetchFile(user,path_save, percent_download):
             threadRecvFile = threading.Thread(target=procRecvFile, args=(addrUser,path_save, percent_download,))
             threadRecvFile.start()
             return
-def procRecvFile(addrUser,path_save, percent_download):
-        clientPeer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        clientPeer.connect(tuple(addrUser[1]))
-        lname = addrUser[2][0]
-        fname = addrUser[2][1]
-        data = json.dumps({
+        
+def procRecvFile(addrUser, path_save, percent_download):
+    clientPeer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientPeer.connect(tuple(addrUser[1]))
+    lname = addrUser[2][0]
+    fname = addrUser[2][1]
+    data = json.dumps({
         "lname": lname,
         "fname": fname}).encode()
-        clientPeer.send(data)
-        f = open(path_save+'/'+fname, 'wb')
-        l = clientPeer.recv(2048)
-        percent = clientPeer.recv(1024).decode()
-        while l:
-            f.write(l)
-            percent_download.config(text=f"Đã tải xuống được {percent}%")
-            clientPeer.send("".encode())
-            l = clientPeer.recv(2048)
-            percent = clientPeer.recv(1024).decode()
-        percent_download.config(text="Đã tải xuống thành công")
-        f.close()
-        clientPeer.close()
+    clientPeer.send(data)
+    with open(path_save+'/'+fname, 'wb') as f:
+        total_received = 0
+        while True:
+            chunk = clientPeer.recv(2048)
+            if not chunk:
+                print("done!")
+                break
+            total_received += len(chunk)
+            print(f"Received: {total_received} bytes")
+            # print(f"chunk: {chunk.decode()}")
+            f.write(chunk)
+    percent_download.config(text="Đã tải xuống thành công")
+    clientPeer.close()
+    f.close()
 def sendDeleteFilePublish(delFile):
     files.remove(delFile)
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
