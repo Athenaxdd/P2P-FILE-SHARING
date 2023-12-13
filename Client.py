@@ -27,7 +27,7 @@ if len(args) == 2:
     if is_valid_ip(args[1]):
         funcClient.setIpServer(args[1])
     else:
-        print(f"{args[1]} không phải là địa chỉ ip hợp lệ.")
+        print(f"{args[1]} không phải là địa chỉ IP hợp lệ.")
 else: 
     print("ex: python3 Client.py 192.168.52.13")
 
@@ -92,13 +92,13 @@ def register(username= None, password = None, repassword = None):
         if password == repassword:
             message = funcClient.sendRegister(username, password)
             if(message is True):
-                print("Đăng ký thành công !!!")
+                print("Đăng ký thành công!")
                 show_frame(flogin)
             else:
-                print("Tên đăng nhập đã được sử dụng !!!")
+                print("Tên đăng nhập đã được sử dụng!")
                 fregister_error_username.config(text="Tên đăng nhập đã được sử dụng")
         else:   
-            print("Mật khẩu nhập lại không trùng khớp !!!")
+            print("Mật khẩu nhập lại không trùng khớp!")
             fregister_error_username.config(text="Mật khẩu nhập lại không trùng khớp")
         fregister_username_entry.delete(0, tk.END)
         fregister_password_entry.delete(0, tk.END)
@@ -120,7 +120,7 @@ def login(username= None, password = None):
             print("Tài khoản hoặc mật khẩu không đúng")
             error_login.config(text="Tài khoản hoặc mật khẩu không đúng", fg="red")
         else:
-            print("Đăng nhập thành công !!")
+            print("Đăng nhập thành công!")
             isLogin = True
             role = message["role"]
             data = message["data"]
@@ -131,7 +131,7 @@ def login(username= None, password = None):
                     if user[0] == True:
                         tk.Label(pageAdminM, text="online",   padx=10, pady=5).pack()
                     else:
-                        tk.Label(pageAdminM, text="ofline", padx=10, pady=5).pack()
+                        tk.Label(pageAdminM, text="offline", padx=10, pady=5).pack()
                     tk.Label(pageAdminR, text=listFilesToString(user[2]), wraplength=250).pack(pady=5)
                 switch_to_admin_page()
             else:
@@ -175,7 +175,7 @@ def publishFile (namefile = None, directory = None):
                 tk.Label(leftpagehomeM, text=directory_path,  wraplength=150, padx=10, pady=5).pack()
                 tk.Button(leftpagehomeR, text="Xóa", command=lambda x=directory_path, y = namefile: deleteFilePublish([x, y])).pack(pady=5)
                 error_publish_file.config(text="File đã được publish thành công", fg="green")
-                print("File đã được publish thành công !!!")
+                print("File đã được publish thành công!")
                 directory_path=""
                 leftpagehome_namefile_entry.delete(0, tk.END)
                 leftpagehome_address_label.config(text=f"Vị trí file tại:")    
@@ -224,7 +224,7 @@ def terminal():
             elif arr[0] == "register" and len(arr) == 4:
                 register(arr[1], arr[2], arr[3])
             else:
-               print("Command Không chính xác !!!")  
+               print("Command Không chính xác")  
         else:
             if role == "admin":
                 if arr[0] == "ping" and len(arr) == 2:
@@ -352,7 +352,7 @@ rightpagehome_username_label = tk.Label(logout, text="Minhpro", pady=15, padx=10
 rightpagehome_username_label.pack(side="right")
 logout.pack()
 
-leftpagehome_username_label = tk.Label(leftpagehome,font=font_style_title ,text="Tải tên file có thể chia sẽ lên server", anchor='w')
+leftpagehome_username_label = tk.Label(leftpagehome,font=font_style_title ,text="Tải lên file cho phép chia sẻ", anchor='w')
 leftpagehome_username_label.pack(fill='both')
 error_publish_file = tk.Label(leftpagehome, text="", fg="red")
 error_publish_file.pack()
