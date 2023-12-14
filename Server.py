@@ -16,17 +16,31 @@ def handle_client(client_socket, addr):
     message = json.loads(message)
     command = message["command"]
     data = message["data"]
-    if(command=="register"):
+    if command == "register":
         username = data["username"]
         password = data["password"]
         isSuccess = True
+        
         for client in clients:
             if client["username"] == username:
                 client_socket.send("fail".encode())
                 isSuccess = False
                 break
+        
         if isSuccess:
-            clients.append({"isOnl": False,"role": "user", "username": username, "password": password, "files": [], "addrServer": None})
+            clients.append({
+                "isOnl": False,
+                "role": "user",
+                "username": username,
+                "password": password,
+                "files": [],
+                "addrServer": None
+            })
+            
+            # Update users.json file
+            with open('users.json', 'w') as f:
+                json.dump({"users": clients}, f)
+                
     elif(command == "ping"):
         username = data["username"]
         for client in clients:
