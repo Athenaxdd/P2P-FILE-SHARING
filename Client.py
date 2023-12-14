@@ -47,6 +47,7 @@ def switch_to_flogin():
     fregister_error_username.config(text="")
     window.title("Login")
     show_frame(flogin)
+
 def deleteFilePublish(file): 
     files = funcClient.sendDeleteFilePublish(file)
     showPublishFiles(files)
@@ -65,9 +66,11 @@ def showPublishFiles(files):
         tk.Label(leftpagehomeL, text=file[1], pady=5, wraplength=150).pack()
         tk.Label(leftpagehomeM, text=file[0],  wraplength=150, padx=10, pady=5).pack()
         tk.Button(leftpagehomeR, text="Xóa", command=lambda fl=file: deleteFilePublish(fl)).pack(pady=5)
+
 def switch_to_fregister():
     error_login.config(text="")
     window.title("Register")
+
     show_frame(fregister)
 def switch_to_home_page():
     rightListUsers.pack_forget()
@@ -76,12 +79,12 @@ def switch_to_home_page():
     window.title("Home Page")
     window.geometry("700x600")
     show_frame(pageHome)
+
 def switch_to_admin_page():
     window.title("Admin Page")
     window.geometry("450x400")
     show_frame(pageAdmin)
-    
-    
+
     show_frame(pageAdmin)
 def register(username= None, password = None, repassword = None):
     if username == None and password == None and repassword == None:
@@ -104,7 +107,9 @@ def register(username= None, password = None, repassword = None):
         fregister_password_entry.delete(0, tk.END)
         fregister_repassword_entry.delete(0, tk.END)
         fregister_username_entry.focus()
+
 def show_admin_page(): return
+
 def listFilesToString(files):
     return ", ".join(list(map(lambda file: file[1], files)))
     
@@ -129,7 +134,7 @@ def login(username= None, password = None):
                 for user in users:
                     tk.Label(pageAdminL, text=user[1], pady=5).pack()
                     if user[0] == True:
-                        tk.Label(pageAdminM, text="online",   padx=10, pady=5).pack()
+                        tk.Label(pageAdminM, text="online", padx=10, pady=5).pack()
                     else:
                         tk.Label(pageAdminM, text="offline", padx=10, pady=5).pack()
                     tk.Label(pageAdminR, text=listFilesToString(user[2]), wraplength=250).pack(pady=5)
@@ -153,12 +158,13 @@ def select_directory():
     if directory_path:
         error_publish_file.config(text="")
         leftpagehome_address_label.config(text=f"Vị trí file tại: {directory_path}", wraplength=380, justify="left")
+
 def select_directory_save():
     global directory_path_save 
     directory_path_save = filedialog.askdirectory()
     if directory_path_save:
         rightpagehome_address_save_label.config(text=f"Vị trí lưu file tại: {directory_path_save}", wraplength=280, justify="left")
-     
+
 def publishFile (namefile = None, directory = None):
     global directory_path
     if namefile == None and directory == None:
@@ -182,8 +188,8 @@ def publishFile (namefile = None, directory = None):
         else:
             error_publish_file.config(text="Vị trí file không được trống")
     
-    
     return
+
 def get_user_files (namefile = None):
     global optionList
     if namefile == None:
@@ -199,8 +205,10 @@ def get_user_files (namefile = None):
         rightListUsers.pack()
         rightpagehome_namefile_save_entry.delete(0, tk.END)
     return
+
 def pingUser(username):
     return funcClient.sendPingUser(username)
+
 def discoverFiles(username):
     return funcClient.sendDiscoverFiles(username)
     
@@ -224,7 +232,7 @@ def terminal():
             elif arr[0] == "register" and len(arr) == 4:
                 register(arr[1], arr[2], arr[3])
             else:
-               print("Command Không chính xác")  
+                print("Command Không chính xác")  
         else:
             if role == "admin":
                 if arr[0] == "ping" and len(arr) == 2:
@@ -234,7 +242,7 @@ def terminal():
                 elif arr[0] == "logout" and len(arr) == 1:
                     logOut()
                 else:
-                   print("Command Không chính xác !!!")  
+                    print("Command Không chính xác")  
             else:
                 if arr[0] == "publish" and len(arr) == 3:
                     publishFile(arr[1], arr[2])
@@ -243,7 +251,7 @@ def terminal():
                 elif arr[0] == "logout" and len(arr) == 1:
                     logOut()
                 else:
-                   print("Command Không chính xác !!!")  
+                    print("Command Không chính xác")  
             
 
     
