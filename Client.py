@@ -132,12 +132,18 @@ def login(username= None, password = None):
             if role == "admin":
                 users = data
                 for user in users:
-                    tk.Label(pageAdminL, text=user[1], pady=5).pack()
+                    username_label = tk.Label(pageAdminL, text=user[1], pady=5)
+                    username_label.pack()
+                    
+                    status_label = tk.Label(pageAdminM, padx=10, pady=5)
                     if user[0] == True:
-                        tk.Label(pageAdminM, text="online", padx=10, pady=5).pack()
+                        status_label.config(text="online")
                     else:
-                        tk.Label(pageAdminM, text="offline", padx=10, pady=5).pack()
-                    tk.Label(pageAdminR, text=listFilesToString(user[2]), wraplength=250).pack(pady=5)
+                        status_label.config(text="offline")
+                    status_label.pack()
+                    
+                    files_label = tk.Label(pageAdminR, text=listFilesToString(user[2]), wraplength=250)
+                    files_label.pack(pady=5)
                 switch_to_admin_page()
             else:
                 username = data[0]

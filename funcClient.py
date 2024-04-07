@@ -199,7 +199,7 @@ def procRecvFile(addrUser, path_save, percent_download):
     with open(path_save+'/'+fname, 'wb') as f:
         total_received = 0
         while True:
-            chunk = clientPeer.recv(2048)
+            chunk = clientPeer.recv(20048)
             if not chunk:
                 print("done!")
                 break
